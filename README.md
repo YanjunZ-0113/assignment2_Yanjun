@@ -24,9 +24,9 @@ Both folders include:
 assignment2/
 ├── README.md                 # This file
 ├── manual/
-|   ├──environment.yml         # Conda env for manual/ (7030_class_2)
-|   ├──setup_env.sh            # Setup script for manual/
-|   ├──requirement.txt         # Optional pip packages for manual/
+|   ├── environment.yml        # Conda env for manual/ (7030_class_2)
+|   ├── setup_env.sh           # Setup script for manual/
+|   ├── requirement.txt        # Optional pip packages for manual/
 │   ├── regression_data.csv
 │   ├── linear_regression_python.py
 │   ├── linear_regression_r.R
