@@ -1,0 +1,4 @@
+# Optional pip packages
+pandas
+matplotlib
+scikit-learn
