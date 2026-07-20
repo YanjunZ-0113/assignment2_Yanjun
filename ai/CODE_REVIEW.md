@@ -1,269 +1,157 @@
-# Code Review: Assignment 3 vs GitHub `main`
+# Code Review: Assignment 3 PR (`maf/assignment3` vs `origin/main`)
 
 **Review date:** 2026-07-20  
-**Local path:** `/users/PAS3421/yanjun0113/assignment3`  
-**Remote baseline:** [https://github.com/YanjunZ-0113/assignment2_Yanjun.git](https://github.com/YanjunZ-0113/assignment2_Yanjun.git) — branch `main`  
-**Comparison:** entire working tree (`README.md`, `ai/`, `manual/`) vs `origin/main`  
-**Method:** `git fetch origin`, `git diff origin/main`, untracked inventory, script execution
+**Repository:** `/users/PAS3421/yanjun0113/assignment3`  
+**Baseline:** `origin/main` (`ace4abaf`)  
+**Branch:** `maf/assignment3` (`874fe918`)  
+**Method:** `git fetch origin`, `git diff origin/main...HEAD`, script execution in `regression-env`, comparison against `manual/` as functional reference only
 
 ---
 
-## Remote Verification
+## PR Diff Scope
+
+Single commit on branch: `874fe918 Complete Assignment 3 linear model deliverables for Python and R`
+
+`git diff origin/main...HEAD --stat`: **32 files changed**, 5152 insertions, 2641 deletions.
+
+| Area | Key changes |
+|------|-------------|
+| Root `README.md` | Assignment 2 guide replaced with short Assignment 3 pointer |
+| `ai/` | Renamed `linear_regression_*` → `linear_model.*`; added notebooks, plots, docs; removed `requirements.txt`; updated `environment.yml` (+ `r-ggplot2`, `r-base` 4.5.3) and `setup_env.sh` echo commands |
+| `manual/` | Same Assignment 3 renames and new `README.md` (reference only for this review) |
+
+### `ai/` deliverables in the PR
+
+| Required item | Present in PR | Notes |
+|---------------|---------------|-------|
+| `environment.yml` | Yes (modified) | Adds `r-ggplot2`; bumps `r-base` to 4.5.3 |
+| `setup_env.sh` | Yes (modified) | Echo text updated to `linear_model.*` commands |
+| `regression_data.csv` | Yes (unchanged) | Same 10-row dataset |
+| `linear_model.py` | Yes (new) | CLI script with validation |
+| `linear_model.R` | Yes (new) | CLI script with validation; ggplot2 plot |
+| `linear_model_python.ipynb` | Yes (new) | Executed notebook with outputs |
+| `linear_model_r.ipynb` | Yes (new) | Executed notebook; kernel `ir_regression_env` |
+| `regression_plot_python.png` | Yes (new) | Saved by Python script |
+| `regression_plot_r.png` | Yes (new) | Saved by R script |
+
+Assignment 2 artifacts removed as expected: `linear_regression_*` scripts/notebooks/HTML/PNG files and `ai/requirements.txt` (dependencies now fully declared in `environment.yml`).
+
+---
+
+## Regression Calculations
+
+Executed in `ai/` with `regression-env` activated:
 
 ```bash
-git remote get-url origin
-# https://github.com/YanjunZ-0113/assignment2_Yanjun.git
-
-git fetch origin
-git rev-parse HEAD origin/main
-# ace4abaf (local main even with GitHub main)
-```
-
-All diffs are against **`origin/main` on that repository**.
-
----
-
-## Diff Scope (whole repository)
-
-`git diff origin/main...HEAD` is **empty** — Assignment 3 work is uncommitted.
-The full delta is the **working tree** plus **untracked files**:
-
-| Scope | Tracked diff | Untracked |
-|-------|--------------|-----------|
-| `README.md` | Rewritten (A2 → A3) | — |
-| `ai/` | 3 modified, 9 deleted | 10 files |
-| `manual/` | 8 deleted | 9 files |
-| `.gitignore` | Unchanged | — |
-| **Total** | 21 paths, ~36k deletions (mostly HTML) | 19 new files |
-
----
-
-## Root: `README.md`
-
-| | GitHub `main` | Local Assignment 3 |
-|---|---------------|-------------------|
-| Title | Assignment 2: Linear Regression | Assignment 3: Linear Model |
-| Content | Full A2 setup, structure, instructions (~480 lines) | Short pointer to `manual/README.md` and `ai/README_AI.md` |
-
-Expected migration — not a defect.
-
----
-
-## `manual/` vs GitHub `main`
-
-### On GitHub `main` (`manual/`)
-
-```
-manual/
-├── environment.yml
-├── setup_env.sh
-├── requirement.txt
-├── regression_data.csv
-├── linear_regression_python.py
-├── linear_regression_python.ipynb
-├── linear_regression_python.html
-├── linear_regression_python_output.png
-├── linear_regression_r.R
-├── linear_regression_r.ipynb
-├── linear_regression_r.html
-└── linear_regression_r_output.png
-```
-
-### Local Assignment 3 (`manual/`)
-
-**Unchanged from GitHub `main` (still tracked, no diff):**
-
-- `environment.yml`, `setup_env.sh`, `requirement.txt`, `regression_data.csv`
-
-**Removed in tracked diff (Assignment 2 artifacts):**
-
-- All `linear_regression_*` scripts, notebooks, HTML exports, and `*_output.png` files
-
-**Added (untracked — Assignment 3 replacements):**
-
-| File | Role |
-|------|------|
-| `README.md` | Manual folder documentation |
-| `linear_model.py`, `linear_model.R` | CLI scripts |
-| `linear_model_python.ipynb`, `linear_model_r.ipynb` | Notebooks |
-| `linear_model_python.html`, `linear_model_r.html` | HTML exports |
-| `regression_plot_python.png`, `regression_plot_r.png` | Script plot outputs |
-
-Assignment 2 → 3 renames in `manual/` mirror `ai/` and are **expected**, not defects.
-
-### `manual/` functional review
-
-```bash
+python linear_model.py regression_data.csv YearsExperience Salary
 Rscript linear_model.R regression_data.csv YearsExperience Salary
 ```
 
-| Metric | `manual/` | `ai/` |
-|--------|-----------|-------|
-| Slope | 8285.292 | 8285.2921 |
-| Intercept | 29203.52 | 29203.5227 |
-| Pearson's r | 0.886088 | 0.886088 |
-| MSE | 17523844 | 17523844.0829 |
+| Metric | `ai/` result | `manual/` reference | Expected (manual/README) |
+|--------|--------------|---------------------|--------------------------|
+| Slope | 8285.2921 | 8285.292 | ~8285.29 |
+| Intercept | 29203.5227 | 29203.52 | ~29203.52 |
+| Pearson's r | 0.886088 | 0.886088 | ~0.89 |
+| MSE | 17523844.0829 | 17523844 | ~17523844.08 |
 
-R results match `ai/` within rounding. Python script uses `scipy.stats.linregress`
-and saves `regression_plot_python.png`; R uses `ggplot2` with `geom_smooth`.
+Both `ai/` scripts and both notebooks compute the same four statistics on the shared dataset. Methods differ from `manual/` (scikit-learn / `lm()` in `ai/` vs `scipy.stats.linregress` in manual Python) but agree numerically within rounding.
 
-**Minor `manual/` inconsistency (not an `ai/` defect):** `linear_model.py` and
-`linear_model.R` still print stale Assignment 2 names in usage strings
-(`linear_regression_python.py`, `linear_regression_r.R`) even though files were
-renamed to `linear_model.*`.
+Notebook executed outputs confirm the same values (e.g. Python notebook Step 6: slope 8285.2921, intercept 29203.5227, r 0.886088, MSE 17523844.0829).
 
 ---
 
-## `ai/` vs GitHub `main`
+## Console Output
 
-### On GitHub `main` (`ai/`)
+### Scripts
 
-```
-ai/
-├── environment.yml
-├── setup_env.sh
-├── requirements.txt
-├── regression_data.csv
-├── linear_regression_python.py
-├── linear_regression_python.ipynb
-├── linear_regression_python.html
-├── linear_regression_python_output.png
-├── linear_regression_r.R
-├── linear_regression_r.ipynb
-├── linear_regression_r.html
-└── linear_regression_r_output.png
-```
+Both `ai/` scripts print all four required statistics plus optional R² and a plot path:
 
-### Local changes
+- Python: header block, `Slope (YearsExperience)`, `Intercept`, `Pearson's r`, `MSE`, `R-squared (optional)`
+- R: matching structure with `cat()` output
 
-**Modified (tracked):**
+This satisfies the Assignment 3 prompt requirement to print slope, intercept, Pearson's r, and MSE. Labels differ from the simpler `manual/` reference (`Correlation coefficient`, `Mean Squared Error`) but values match.
 
-| File | Change |
-|------|--------|
-| `environment.yml` | `r-base` 4.5.2 → 4.5.3; added `r-ggplot2` |
-| `setup_env.sh` | Echo commands updated to `linear_model.*` |
-| `PROMPTS.md` | Rewritten for Assignment 3 |
+### Notebooks
 
-**Removed (tracked):** all Assignment 2 `linear_regression_*` files and `requirements.txt`
-
-**Added (untracked):**
-
-| File | Role |
-|------|------|
-| `linear_model.py`, `linear_model.R` | CLI scripts |
-| `linear_model_python.ipynb`, `linear_model_r.ipynb` | Notebooks |
-| `regression_plot_python.png`, `regression_plot_r.png` | Plot outputs |
-| `README_AI.md`, `CODE_REVIEW.md`, `PROMPTS.md` | Docs |
-| `linear_model_python.html`, `linear_model_r.html` | Optional exports |
-
-**Unchanged:** `regression_data.csv`
-
-### Required `ai/` deliverables
-
-| Required file | Working tree | GitHub `main` | In PR diff? |
-|---------------|--------------|---------------|-------------|
-| `environment.yml` | Yes (modified) | Yes | Yes |
-| `setupenv.sh` | **No** — `setup_env.sh` | `setup_env.sh` | Name unchanged |
-| `regression_data.csv` | Yes | Yes | No change |
-| `linear_model.py` | Yes | No | Untracked |
-| `linear_model.R` | Yes | No | Untracked |
-| `linear_model_python.ipynb` | Yes | No | Untracked |
-| `linear_model_r.ipynb` | Yes | No | Untracked |
-| `regression_plot_python.png` | Yes | No | Untracked |
-| `regression_plot_r.png` | Yes | No | Untracked |
+Both notebooks print the four statistics in a compact form (`Slope:`, `Intercept:`, `Pearson's r:`, `MSE:`) without the script header/metadata block. Values match the scripts; format is slightly inconsistent but not incorrect.
 
 ---
 
-## `ai/` vs `manual/` (functional comparison)
+## Command-Line Behavior
 
-Both folders implement the same Assignment 3 linear model on `regression_data.csv`.
+Both scripts accept `<filename> <x_column> <y_column>` as required.
 
-| Aspect | `manual/` | `ai/` |
-|--------|-----------|-------|
-| Python method | `scipy.stats.linregress` | `sklearn.LinearRegression` |
-| R method | `lm()` + `cor()` + residual MSE | Same |
-| CLI args | `<filename> <x_column> <y_column>` | Same |
-| Input validation | Minimal | File + column checks |
-| Usage string | Stale A2 filenames | Correct `linear_model.*` |
-| Plot filenames | `regression_plot_*.png` | Same |
-| Python plot | matplotlib, simple annotation | matplotlib, richer annotation + legend |
-| R plot | ggplot2 `geom_smooth` (green) | ggplot2 `geom_abline` (red) |
-| Console output | Basic four stats | Four stats + optional R² + metadata |
-| Environment | `7030_class_2` + `requirement.txt` | `regression-env` (conda-only) |
+Verified Python CLI handling:
 
-Regression results agree on the shared dataset. `ai/` is more verbose and validated;
-`manual/` is the hand-written reference baseline.
+- Wrong argument count → usage message, exit 1
+- Missing file → `Error: file not found`, exit 1
+- Invalid column → `Error: columns must exist` with available columns listed, exit 1
+
+R script includes the same validation pattern. Usage strings correctly reference `linear_model.py` / `linear_model.R` (unlike stale usage strings still present in `manual/` reference scripts).
 
 ---
 
-## Review of `ai/` (graded deliverables)
+## Plot Annotations and Filenames
 
-### Regression calculations
+### Filenames
 
-Verified by execution on `regression_data.csv`:
+Scripts save plots next to the script as required:
 
-```
-Slope:        8285.2921
-Intercept:    29203.5227
-Pearson's r:  0.886088
-MSE:          17523844.0829
-```
+- `regression_plot_python.png` (`linear_model.py`)
+- `regression_plot_r.png` (`linear_model.R`)
 
-### Console output, CLI, plots, filenames
+Correct migration from Assignment 2 names (`linear_regression_*_output.png` on `origin/main`).
 
-- All four required statistics printed in scripts and notebooks
-- CLI accepts and validates filename and column arguments
-- Annotated plots saved as `regression_plot_python.png` and `regression_plot_r.png`
-- R script and R notebook both use ggplot2 with matching styling
-- Assignment 3 filenames used throughout; Assignment 2 names removed
+### Annotation content
+
+All four implementations include an annotated regression equation plus Pearson's r, MSE, and R² on the final plot. Predicted values and residuals appear in notebook tables (Step 5 in both notebooks).
+
+### R script and R notebook
+
+`linear_model.R` and `linear_model_r.ipynb` both use ggplot2 with steelblue points, red `geom_abline`, and matching equation annotation. Axis label `Years of Experience`, title `Salary vs Years of Experience with Annotated Regression Line`.
 
 ---
 
 ## Issues Found
 
-### Issue 1 — `ai/setup_env.sh` does not match required `setupenv.sh`
+### Issue 1 — Python script plot labels inconsistent with R script, notebooks, and README
 
 | Field | Detail |
 |-------|--------|
-| **Affected file** | `ai/setup_env.sh` (required: `ai/setupenv.sh`) |
-| **Issue** | Official Assignment 3 requires `setupenv.sh`. GitHub `main` and local tree use `setup_env.sh` in both `ai/` and `manual/`. |
-| **Importance** | **High (`ai/` deliverable compliance).** |
-| **Recommended fix** | Rename `ai/setup_env.sh` to `setupenv.sh`; update `README_AI.md` and echo text; re-test. |
-| **Resolution status** | **Open** |
+| **Affected file** | `ai/linear_model.py` |
+| **Issue** | The Python script sets `ax.set_xlabel(x_column)` and `ax.set_title(f"{y_column} vs {x_column} with Annotated Regression Line")`, producing **YearsExperience** on the axis and in the title. The R script special-cases `YearsExperience` → **Years of Experience**; both notebooks use **Years of Experience** on the x-axis and in the title. The saved `regression_plot_python.png` therefore does not match the labeled presentation in the Python notebook, R script, R notebook, or `manual/README.md` figure description. |
+| **Importance** | **Medium (plot annotation / deliverable consistency).** Regression math and required statistics are correct, but the Python script PNG is the only deliverable that still exposes the raw column name instead of the human-readable axis label used everywhere else. |
+| **Recommended fix** | Mirror the R script pattern in `linear_model.py`: derive `x_label = "Years of Experience" if x_column == "YearsExperience" else x_column`, use `x_label` for `set_xlabel` and in `set_title`; re-run the script and replace `regression_plot_python.png`. |
+| **Resolution status** | **Resolved** — `linear_model.py` now maps `YearsExperience` to `Years of Experience` for the x-axis label and title; `regression_plot_python.png` regenerated. |
 
 ---
 
 ## What Passes Review
 
-- Baseline is GitHub `main` at `https://github.com/YanjunZ-0113/assignment2_Yanjun.git`
-- Whole repo compared: `README.md`, `ai/`, and `manual/`
-- Assignment 2 → 3 migration consistent in both folders
-- `manual/` R script verified; stats match `ai/`
-- `ai/` scripts, notebooks, and plots functionally correct
-- `ai/` usage strings and validation stronger than `manual/`
+- PR diff correctly migrates `ai/` from Assignment 2 (`linear_regression_*`, RMSE/R² script output) to Assignment 3 (`linear_model.*`, Pearson's r/MSE, annotated plots)
+- All four required statistics verified on `regression_data.csv` in scripts and notebooks
+- CLI argument contract, validation, and usage strings are correct
+- Plot filenames `regression_plot_python.png` and `regression_plot_r.png` are correct
+- R script and R notebook use matching ggplot2 styling
+- `environment.yml` includes `r-ggplot2`; `setup_env.sh` documents correct run commands
+- `ai/` numerical results align with `manual/` functional reference
 
 ---
 
 ## Overall Assessment
 
-Local `/users/PAS3421/yanjun0113/assignment3` correctly migrates **both** `ai/` and
-`manual/` from GitHub `main` Assignment 2 artifacts to Assignment 3 linear-model
-deliverables. `ai/` is functionally correct and aligns with `manual/` on regression
-results. Main open item: **`setupenv.sh` filename in `ai/`**. All new Assignment 3
-files in both folders remain **untracked** until committed.
+The `maf/assignment3` PR is functionally sound: regression calculations, required console statistics, CLI behavior, output filenames, and Python plot axis/title labeling meet Assignment 3 requirements and align with the R and notebook deliverables.
 
 ---
 
-## Resolution
+## Resolution Tracker
 
 | Item | Status |
 |------|--------|
-| Baseline = GitHub repo above, branch `main` | **Resolved** |
-| Whole repo review including `manual/` | **Resolved** |
-| `manual/` Assignment 3 files present (untracked) | **Resolved** (local) |
-| `ai/` scripts/notebooks/plots verified | **Resolved** (local) |
-| `environment.yml` — `r-base=4.5.3`, `r-ggplot2` | **Resolved** (tracked) |
-| `ai/setup_env.sh` echo commands fixed | **Resolved** (tracked) |
-| `ai/linear_model.R` ggplot2 aligned with notebook | **Resolved** (untracked) |
-| `ai/setupenv.sh` rename | **Open** |
-| Assignment 3 files committed for complete PR diff | **Open** |
+| Assignment 3 rename/migration in `ai/` | **Resolved** |
+| Slope, intercept, Pearson's r, MSE verified | **Resolved** |
+| CLI validation and usage strings | **Resolved** |
+| `regression_plot_*.png` filenames | **Resolved** |
+| R script/notebook ggplot2 alignment | **Resolved** |
+| `environment.yml` + `setup_env.sh` updates | **Resolved** |
+| Python script plot axis/title labels vs other deliverables | **Resolved** |

@@ -87,9 +87,10 @@ def main() -> None:
         fontsize=10,
     )
 
-    ax.set_xlabel(x_column)
+    x_label = "Years of Experience" if x_column == "YearsExperience" else x_column
+    ax.set_xlabel(x_label)
     ax.set_ylabel(y_column)
-    ax.set_title(f"{y_column} vs {x_column} with Annotated Regression Line")
+    ax.set_title(f"{y_column} vs {x_label} with Annotated Regression Line")
     ax.legend(loc="lower right")
     fig.tight_layout()
 
