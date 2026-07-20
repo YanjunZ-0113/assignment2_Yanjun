@@ -40,6 +40,7 @@ else
 fi
 
 echo "=== Environment setup complete ==="
-echo "Run Python analysis: python regression.py"
-echo "Run R analysis:      Rscript regression.R"
-echo "Run notebook:        jupyter nbconvert --to notebook --execute linear_regression_python.ipynb --inplace"
+echo "Run Python script:   python linear_model.py regression_data.csv YearsExperience Salary"
+echo "Run R script:        Rscript linear_model.R regression_data.csv YearsExperience Salary"
+echo "Run Python notebook: jupyter nbconvert --to notebook --execute linear_model_python.ipynb --inplace"
+echo "Run R notebook:      jupyter nbconvert --to notebook --execute linear_model_r.ipynb --inplace --ExecutePreprocessor.kernel_name=ir_regression_env"
