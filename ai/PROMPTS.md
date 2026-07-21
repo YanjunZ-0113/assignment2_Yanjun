@@ -1,60 +1,13 @@
-# Key Prompts for AI Linear Regression Project
+# AI Prompts Used in Assignment 3 (`ai/`)
 
-The five prompts below are the most important for building and running the
-command-line scripts (`linear_regression_python.py` and `linear_regression_r.R`).
-They cover environment setup, script requirements, and the notebook analyses
-that the scripts mirror.
+## AI Commit Message
 
----
+Review the completed changes in assignment2 and assignment3 and generate one clear Git commit message describing the updated Python and R notebooks, standalone scripts, regression statistics, annotated plots, and output files. Provide only the commit message and do not modify any files.
 
-## 1. Reproducible Environment Setup
+## AI Code Review
 
-Work only inside the current directory. Do not read, inspect, copy, compare, or
-modify any files outside this directory, including the ../manual folder. Complete
-this project independently from scratch. Create a reproducible environment for
-both Python and R, including environment.yml, requirements.txt, and setup_env.sh.
-Determine the required dependencies yourself, install them when necessary, and
-keep the environment files synchronized with the packages actually used. Create
-record.txt and append this prompt, all actions taken, commands executed,
-dependencies installed, errors encountered, and files created or modified. Never
-overwrite previous records and do not modify unrelated files.
+Review the current assignment3 branch changes compared with main. Check the Python and R notebooks and scripts for correct slope, intercept, Pearson's r, MSE, command-line arguments, plot annotations, filenames, and assignment requirements. Identify at least one meaningful issue and save the review as `ai/CODE_REVIEW.md`. Include the affected file, the issue, its importance, and the recommended fix. Do not modify the manual folder.
 
----
+## AI-Generated README
 
-## 2. Conda Environment Fix and Verification
-
-The Conda environment regression-env was not created successfully. Running
-`conda activate regression-env` returns `EnvironmentNameNotFound`. Diagnose the
-problem, check environment.yml and setup_env.sh, create the environment
-successfully, fix only the necessary environment files, verify with
-`conda info --envs`, confirm Python and R in regression-env, test and run every
-script under the conda environment.
-
----
-
-## 3. Command-Line Scripts
-
-Update Python and R command-line scripts to meet assignment requirements: rename
-to linear_regression_python.py and linear_regression_r.R, accept
-<filename> <x_column> <y_column>, save plots as linear_regression_python_output.png
-and linear_regression_r_output.png, test with regression_data.csv YearsExperience
-Salary, update README.md, append to record.txt.
-
----
-
-## 4. Python Jupyter Notebook
-
-Create and run linear_regression_python.ipynb using the Python kernel. Read and
-display regression_data.csv, create a scatter plot of YearsExperience versus
-Salary, fit a linear regression model, overlay the regression line, add titles
-and axis labels, evaluate the model with R-squared, include short Markdown notes
-for each step, preserve all outputs, and export it as linear_regression_python.html.
-
----
-
-## 5. R Jupyter Notebook
-
-Complete an R Jupyter Notebook analyzing regression_data.csv with simple linear
-regression: display data, scatter plot, fit model, regression line, clear labels,
-evaluate/summarize results, Markdown explanations, preserve outputs, export as
-linear_regression_r.html.
+Generate a fresh README based on the completed files in the `ai` folder and save it as `ai/README_AI.md`. Include the project purpose, dataset description, file descriptions, environment setup, commands for running the Python and R scripts, explanations of slope, intercept, Pearson's r, and MSE, and descriptions of the output plots. Do not modify `README.md` or `manual/README.md`.

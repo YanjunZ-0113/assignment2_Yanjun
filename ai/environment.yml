@@ -7,7 +7,8 @@ dependencies:
   - pandas=2.3.3
   - scikit-learn=1.6.1
   - matplotlib=3.11.0
-  - r-base=4.5.2
+  - r-base=4.5.3
+  - r-ggplot2
   - r-irkernel
   - jupyter
   - nbconvert

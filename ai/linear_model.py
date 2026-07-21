@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Simple linear regression from command-line arguments."""
+"""Simple linear model from command-line arguments."""
 
 import sys
 from pathlib import Path
@@ -10,7 +10,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
-PLOT_NAME = "linear_regression_python_output.png"
+PLOT_NAME = "regression_plot_python.png"
 
 
 def script_dir() -> Path:
@@ -47,32 +47,56 @@ def main() -> None:
 
     slope = float(model.coef_[0])
     intercept = float(model.intercept_)
+    pearson_r = float(np.corrcoef(data[x_column], data[y_column])[0, 1])
+    mse = float(mean_squared_error(y, y_pred))
     r2 = float(r2_score(y, y_pred))
-    rmse = float(np.sqrt(mean_squared_error(y, y_pred)))
 
-    print("Python Linear Regression Results")
-    print("================================")
+    print("Python Linear Model Results")
+    print("===========================")
     print(f"File: {filename}")
     print(f"X column: {x_column}")
     print(f"Y column: {y_column}")
     print(f"Observations: {len(data)}")
-    print(f"Intercept: {intercept:.4f}")
     print(f"Slope ({x_column}): {slope:.4f}")
-    print(f"R-squared: {r2:.6f}")
-    print(f"RMSE: {rmse:.4f}")
+    print(f"Intercept: {intercept:.4f}")
+    print(f"Pearson's r: {pearson_r:.6f}")
+    print(f"MSE: {mse:.4f}")
+    print(f"R-squared (optional): {r2:.6f}")
 
-    plt.figure(figsize=(8, 5))
-    plt.scatter(data[x_column], data[y_column], color="steelblue", label="Observed")
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.scatter(data[x_column], data[y_column], color="steelblue", label="Observed")
+
     x_line = np.linspace(data[x_column].min(), data[x_column].max(), 100)
-    plt.plot(x_line, intercept + slope * x_line, color="crimson", label="Regression line")
-    plt.xlabel(x_column)
-    plt.ylabel(y_column)
-    plt.title(f"{y_column} vs {x_column}")
-    plt.legend()
-    plt.tight_layout()
+    ax.plot(x_line, intercept + slope * x_line, color="crimson", linewidth=2, label="Regression line")
+
+    equation = f"{y_column} = {intercept:,.0f} + {slope:,.0f} * {x_column}"
+    annotation = (
+        f"{equation}\n"
+        f"Pearson's r = {pearson_r:.4f}\n"
+        f"MSE = {mse:,.0f}\n"
+        f"R² = {r2:.4f}"
+    )
+    ax.text(
+        0.05,
+        0.95,
+        annotation,
+        transform=ax.transAxes,
+        va="top",
+        ha="left",
+        bbox=dict(boxstyle="round,pad=0.5", facecolor="white", edgecolor="gray", alpha=0.9),
+        fontsize=10,
+    )
+
+    x_label = "Years of Experience" if x_column == "YearsExperience" else x_column
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_column)
+    ax.set_title(f"{y_column} vs {x_label} with Annotated Regression Line")
+    ax.legend(loc="lower right")
+    fig.tight_layout()
+
     plot_path = script_dir() / PLOT_NAME
-    plt.savefig(plot_path, dpi=150)
-    plt.close()
+    fig.savefig(plot_path, dpi=150)
+    plt.close(fig)
     print(f"Plot saved to {plot_path}")
 
 
