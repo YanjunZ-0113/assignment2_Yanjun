@@ -1,6 +1,6 @@
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 3) {
-  stop("Usage: Rscript linear_regression_r.R <filename> <x_column> <y_column>")
+  stop("Usage: Rscript linear_model.R <filename> <x_column> <y_column>")
 }
 
 filename <- args[1]

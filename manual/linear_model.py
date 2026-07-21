@@ -10,7 +10,7 @@ from scipy.stats import linregress
 from sklearn.metrics import mean_squared_error
 
 if len(sys.argv) != 4:
-    print("Usage: python linear_regression_python.py <filename> <x_column> <y_column>")
+    print("Usage: python linear_model.py <filename> <x_column> <y_column>")
     sys.exit(1)
 
 filename = sys.argv[1]
