@@ -9037,7 +9037,7 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>assignment3</p>
+<h1 id="assignment3">assignment3<a class="anchor-link" href="#assignment3">¶</a></h1>
 </div>
 </div>
 </div>
@@ -9046,7 +9046,7 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
@@ -9062,7 +9062,7 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-r"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Salary</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">YearsExperience</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">)</span>
@@ -9072,10 +9072,10 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 <span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">dataset</span><span class="o">$</span><span class="n">YearsExperience</span><span class="p">,</span><span class="w"> </span><span class="n">dataset</span><span class="o">$</span><span class="n">Salary</span><span class="p">)</span>
 <span class="n">mse</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">((</span><span class="n">dataset</span><span class="o">$</span><span class="n">Salary</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pred</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
 
-<span class="nf">cat</span><span class="p">(</span><span class="s">"Slope:"</span><span class="p">,</span><span class="w"> </span><span class="n">slope</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">"Intercept:"</span><span class="p">,</span><span class="w"> </span><span class="n">intercept</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">"Correlation coefficient:"</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">"Mean Squared Error:"</span><span class="p">,</span><span class="w"> </span><span class="n">mse</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">"Slope:"</span><span class="p">,</span><span class="w"> </span><span class="n">slope</span><span class="p">,</span><span class="s">'\n'</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">"Intercept:"</span><span class="p">,</span><span class="w"> </span><span class="n">intercept</span><span class="p">,</span><span class="s">'\n'</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">"Correlation coefficient:"</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="s">'\n'</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">"Mean Squared Error:"</span><span class="p">,</span><span class="w"> </span><span class="n">mse</span><span class="p">,</span><span class="s">'\n'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9088,7 +9088,11 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Slope: 8285.292Intercept: 29203.52Correlation coefficient: 0.8860878Mean Squared Error: 17523844</pre>
+<pre>Slope: 8285.292 
+Intercept: 29203.52 
+Correlation coefficient: 0.8860878 
+Mean Squared Error: 17523844 
+</pre>
 </div>
 </div>
 </div>
@@ -9100,7 +9104,7 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This used to get the each value use the model.</p>
+<h3 id="This-used-to-get-the-each-value-use-the-model.">This used to get the each value use the model.<a class="anchor-link" href="#This-used-to-get-the-each-value-use-the-model.">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9109,7 +9113,7 @@ F-statistic: 29.24 on 1 and 8 DF,  p-value: 0.0006407
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-r"><pre><span></span><span class="nf">ggplot</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">YearsExperience</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Salary</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
